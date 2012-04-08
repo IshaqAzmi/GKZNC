@@ -674,6 +674,11 @@ class CAdminMod : public CModule {
 		CString sNetwork = sLine.Token(2);
 		CString sServer = sLine.Token(3, true);
 
+		if (!m_pUser->IsAdmin()) {
+			PutModule("Permission denied - It is against the GeekBouncer terms of service to change your IRC server.");
+			return;
+		}
+		
 		if (sServer.empty()) {
 			PutModule("Usage: addserver <username> <network> <server>");
 			return;
