@@ -61,7 +61,13 @@
 				<div style="clear: both;"></div>
 				<div class="subsection">
 					<div class="inputlabel">Ident:</div>
+					<? IF IsAdmin ?>
+					<div><input type="text" name="ident" value="<? VAR Ident ?>" class="half" maxlength="128"/></div>
+					<? ENDLOOP ?>
+					<? ELSE ?>
 					<div><input type="text" name="ident" value="<? VAR Ident ?>" class="half" maxlength="128" readonly="readonly"/></div>
+					<? ENDLOOP ?>
+					<? ENDIF ?>
 				</div>
 				<div class="subsection">
 					<div class="inputlabel">StatusPrefix:</div>
