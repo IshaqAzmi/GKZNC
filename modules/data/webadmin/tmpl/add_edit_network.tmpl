@@ -53,8 +53,14 @@
 
 				<div class="subsection half">
 					<div class="inputlabel">Servers:</div>
-					<div><textarea name="servers" cols="70" rows="5" readonly="readonly"><? LOOP ServerLoop ?><? VAR Server ?>
+					<? IF IsAdmin ?>
+					<div><textarea name="servers" cols="70" rows="5"><? LOOP ServerLoop ?><? VAR Server ?>
 <? ENDLOOP ?>
+<? ELSE ?>
+<div><textarea name="servers" cols="70" rows="5" readonly="readonly"><? LOOP ServerLoop ?><? VAR Server ?>
+<? ENDLOOP ?>
+<? ENDIF ?>
+
 </textarea></div>
 					<br /><span class="info">One server per line, host [[+]port] [password]</span>
 				</div>
