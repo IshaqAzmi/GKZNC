@@ -195,10 +195,6 @@ class CAdminMod : public CModule {
 			pUser->SetAltNick(sValue);
 			PutModule("AltNick = " + sValue);
 		}
-		else if (sVar == "ident") {
-			pUser->SetIdent(sValue);
-			PutModule("Ident = " + sValue);
-		}
 		else if (sVar == "realname") {
 			pUser->SetRealName(sValue);
 			PutModule("RealName = " + sValue);
