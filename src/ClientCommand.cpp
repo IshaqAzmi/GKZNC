@@ -507,9 +507,33 @@ void CClient::UserCommand(CString& sLine) {
 		} else {
 			PutStatus("You don't have a network named " + sNetwork);
 		}
+		} else if (sCommand.Equals("MODE")) {
+		CString sNetwork = sLine.Token(1);
+
+		if (sNetwork.empty()) {
+			PutStatus("Syntax: MODE <support/default>");
+			return;
+		}
+
+		if (m_pNetwork && (m_pNetwork->GetName() == sNetwork)) {
+			PutStatus("You are already in this mode.");
+			return;
+		}
+
+		CIRCNetwork *pNetwork = m_pUser->FindNetwork(sNetwork);
+		if (pNetwork) {
+			PutStatus("You are now in " + sNetwork + " mode.");
+			SetNetwork(pNetwork);
+		} else {
+			PutStatus("ERROR! Contact GeekBouncer admins immediately");
+		}
 	} else if (sCommand.Equals("ADDSERVER")) {
 		CString sServer = sLine.Token(1);
 
+		if (!m_pUser->IsAdmin()) {
+		PutModule("Permission denied - It is against the GeekBouncer terms of service to change your IRC server.");
+		return;
+		}
 		if (!m_pNetwork) {
 			PutStatus("You must be connected with a network to use this command");
 			return;
@@ -530,6 +554,11 @@ void CClient::UserCommand(CString& sLine) {
 		if (!m_pNetwork) {
 			PutStatus("You must be connected with a network to use this command");
 			return;
+		}
+		
+		if (!m_pUser->IsAdmin()) {
+		PutModule("Permission denied - It is against the GeekBouncer terms of service to change your IRC server.");
+		return;
 		}
 
 		CString sServer = sLine.Token(1);
@@ -1350,17 +1379,26 @@ void CClient::HelpUser() {
 	Table.SetCell("Command", "JumpNetwork");
 	Table.SetCell("Arguments", "<network>");
 	Table.SetCell("Description", "Jump to another network");
+	
+	Table.AddRow();
+	Table.SetCell("Command", "MODE");
+	Table.SetCell("Arguments", "<support/default>");
+	Table.SetCell("Description", "Jump between your default bouncer mode and support mode");
 
+	if (!m_pUser->IsAdmin()) {
 	Table.AddRow();
 	Table.SetCell("Command", "AddServer");
 	Table.SetCell("Arguments", "<host> [[+]port] [pass]");
 	Table.SetCell("Description", "Add a server to the list");
+	}
 
+	if (!m_pUser->IsAdmin()) {
 	Table.AddRow();
 	Table.SetCell("Command", "RemServer");
 	Table.SetCell("Arguments", "<host> [port] [pass]");
 	Table.SetCell("Description", "Remove a server from the list");
-
+    }
+	
 	Table.AddRow();
 	Table.SetCell("Command", "Enablechan");
 	Table.SetCell("Arguments", "<#chan>");
