@@ -527,13 +527,9 @@ void CClient::UserCommand(CString& sLine) {
 		} else {
 			PutStatus("ERROR! Contact GeekBouncer admins immediately");
 		}
-	} else if (sCommand.Equals("ADDSERVER")) {
+	} else if (m_pUser->IsAdmin() && sCommand.Equals("ADDSERVER")) {
 		CString sServer = sLine.Token(1);
 
-		if (!m_pUser->IsAdmin()) {
-		PutModule("Permission denied - It is against the GeekBouncer terms of service to change your IRC server.");
-		return;
-		}
 		if (!m_pNetwork) {
 			PutStatus("You must be connected with a network to use this command");
 			return;
@@ -550,17 +546,12 @@ void CClient::UserCommand(CString& sLine) {
 			PutStatus("Unable to add that server");
 			PutStatus("Perhaps the server is already added or openssl is disabled?");
 		}
-	} else if (sCommand.Equals("REMSERVER") || sCommand.Equals("DELSERVER")) {
+	} else if (m_pUser->IsAdmin() && sCommand.Equals("REMSERVER") || sCommand.Equals("DELSERVER")) {
 		if (!m_pNetwork) {
 			PutStatus("You must be connected with a network to use this command");
 			return;
 		}
 		
-		if (!m_pUser->IsAdmin()) {
-		PutModule("Permission denied - It is against the GeekBouncer terms of service to change your IRC server.");
-		return;
-		}
-
 		CString sServer = sLine.Token(1);
 		unsigned short uPort = sLine.Token(2).ToUShort();
 		CString sPass = sLine.Token(3);
