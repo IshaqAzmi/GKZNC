@@ -10,4 +10,3 @@ function floodprotection_change() {
 		burst.disabled = 'disabled';
 	}
 }
-
