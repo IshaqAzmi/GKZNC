@@ -1,4 +1,4 @@
-/*
+http://znc.in/*
  * Copyright (C) 2004-2012  See the AUTHORS file for details.
  *
  * This program is free software; you can redistribute it and/or modify it
