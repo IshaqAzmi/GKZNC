@@ -38,7 +38,12 @@
 				<div style="clear: both;"></div>
 				<div class="subsection">
 					<div class="inputlabel">Ident:</div>
-					<div><input type="text" name="ident" value="<? VAR Ident ?>" class="half" maxlength="128" /></div>
+					<? IF IsAdmin ?>
+					<div><input type="text" name="ident" value="<? VAR Ident ?>" class="half" maxlength="128"/></div>
+					<? ELSE ?>
+					<div><input type="text" name="ident" value="<? VAR Ident ?>" class="half" maxlength="128" readonly="readonly"/></div>
+	
+					<? ENDIF ?>
 				</div>
                 <div class="subsection">
 					<div class="inputlabel">Realname:</div>
