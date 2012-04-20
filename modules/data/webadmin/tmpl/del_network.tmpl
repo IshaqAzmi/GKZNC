@@ -5,6 +5,7 @@
 	<div class="sectionbg">
 		<div class="sectionbody">
 			<div class="subsection">
+			        <? IF IsAdmin ?>
 				Are you sure you want to delete "<? VAR Username ?>/<? VAR Network ?>"?
 				<form action="delnetwork" method="post">
 					<? INC _csrf_check.tmpl ?>
@@ -15,6 +16,9 @@
 				<form action="listusers" method="get">
 					<div class="yesnobutton"><input type="submit" value="No" /></div>
 				</form>
+				<? ELSE ?>
+				You aren't an admin! I'm not gonna let you change server!
+				<? ENDIF ?>
 			</div>
 		</div>
 	</div>
