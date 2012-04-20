@@ -431,7 +431,7 @@ void CClient::UserCommand(CString& sLine) {
 			PutStatus("Unable to add that network");
 			PutStatus("Perhaps that network is already added");
 		}
-	} else if (sCommand.Equals("DELNETWORK")) {
+	} else if (m_pUser->IsAdmin() && sCommand.Equals("DELNETWORK")) {
 		CString sNetwork = sLine.Token(1);
 
 		if (sNetwork.empty()) {
