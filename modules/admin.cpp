@@ -599,6 +599,11 @@ class CAdminMod : public CModule {
 		CString sUser = sLine.Token(1);
 		CString sNetwork = sLine.Token(2);
 		CUser *pUser = m_pUser;
+		
+		if (!m_pUser->IsAdmin()) {
+			PutModule("Permission denied - It is against the GeekBouncer terms of service to delete your IRC server.");
+			return;
+		}
 
 		if (sNetwork.empty()) {
 			sNetwork = sUser;
@@ -951,6 +956,8 @@ public:
 			"username",                             "Deletes a user");
 		AddCommand("CloneUser",    static_cast<CModCommand::ModCmdFunc>(&CAdminMod::CloneUser),
 			"oldusername newusername",              "Clones a user");
+		AddCommand("AddServer",    static_cast<CModCommand::ModCmdFunc>(&CAdminMod::AddServer),
+			"username network server",              "Adds a new IRC server for the given or current user");
 		AddCommand("Reconnect",    static_cast<CModCommand::ModCmdFunc>(&CAdminMod::ReconnectUser),
 			"username network",                     "Cycles the user's IRC server connection");
 		AddCommand("Disconnect",   static_cast<CModCommand::ModCmdFunc>(&CAdminMod::DisconnectUser),
@@ -971,6 +978,8 @@ public:
 		// Network commands
 		AddCommand("AddNetwork", static_cast<CModCommand::ModCmdFunc>(&CAdminMod::AddNetwork),
 			"[username] network",                   "Add a network for a user");
+		AddCommand("DelNetwork", static_cast<CModCommand::ModCmdFunc>(&CAdminMod::DelNetwork),
+			"[username] network",                   "Delete a network for a user");
 		AddCommand("ListNetworks", static_cast<CModCommand::ModCmdFunc>(&CAdminMod::ListNetworks),
 			"[username]",                           "List all networks for a user");
 	}
